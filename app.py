@@ -16,8 +16,8 @@ class Entry(BaseModel):
 
 @app.post("/add")
 def add_entry(entry: Entry):
-    # Check for duplicate based on 'name'
-    existing = collection.find_one({"name": entry.name})
+    # Check for duplicates based on the question
+    existing = collection.find_one({"question": entry.question})
     if existing:
         return {"_id": str(existing["_id"]), "message": "Duplicate entry, returning existing record"}
     else:
