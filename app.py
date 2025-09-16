@@ -2,10 +2,13 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from pymongo import MongoClient
 import os
+import datetime
+
+VERSION_NUMBER = "0.1.0"
 
 app = FastAPI()
 
-MONGO_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
+MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
 client = MongoClient(MONGODB_URI)
 db = client["ralf-test"]
 collection = db["questions"]
@@ -13,6 +16,11 @@ collection = db["questions"]
 class Entry(BaseModel):
     name: str
     value: str
+
+class HealthResponse(BaseModel):
+    status: str
+    timestamp: str
+    version: str
 
 @app.get("/health", response_model=HealthResponse)
 async def health_check():
