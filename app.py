@@ -14,6 +14,15 @@ class Entry(BaseModel):
     name: str
     value: str
 
+@app.get("/health", response_model=HealthResponse)
+async def health_check():
+    """Health check endpoint"""
+    return HealthResponse(
+        status="healthy",
+        timestamp=datetime.datetime.now().isoformat(),
+        version=VERSION_NUMBER
+    )
+
 @app.post("/add")
 def add_entry(entry: Entry):
     # Check for duplicates based on the question
