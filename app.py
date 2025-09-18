@@ -16,6 +16,8 @@ collection = db["questions"]
 class Entry(BaseModel):
     name: str
     value: str
+    prompt: str
+    response: str
 
 class HealthResponse(BaseModel):
     status: str
@@ -34,7 +36,7 @@ async def health_check():
 @app.post("/add")
 def add_entry(entry: Entry):
     # Check for duplicates based on the question
-    existing = collection.find_one({"question": entry.question})
+    existing = collection.find_one({"question": entry.prompt})
     if existing:
         return {"_id": str(existing["_id"]), "message": "Duplicate entry, returning existing record"}
     else:
