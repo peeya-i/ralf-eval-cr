@@ -24,7 +24,7 @@ class HealthResponse(BaseModel):
 
 @app.get("/health", response_model=HealthResponse)
 async def health_check():
-    """Health check endpoint"""
+    """Health check endpoint."""
     return HealthResponse(
         status="healthy",
         timestamp=datetime.datetime.now().isoformat(),
